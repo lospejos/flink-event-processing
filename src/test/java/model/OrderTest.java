@@ -1,3 +1,5 @@
+package model;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,7 +42,7 @@ class OrderTest {
    }
 
    @Test
-   @DisplayName("let: instance not be created if Priority is null")
+   @DisplayName("let: instance not be created if model.Priority is null")
    public void shouldThrowNullPointerExIfPriorityIsNull() {
       assertThrows(NullPointerException.class,
          () -> new Order(1L, "Commodities", null, salesOrder)
@@ -48,7 +50,7 @@ class OrderTest {
    }
 
    @Test
-   @DisplayName("let: instance not be created if SalesOrder is null")
+   @DisplayName("let: instance not be created if model.SalesOrder is null")
    public void shouldThrowNullPointerExIfSalesOrderIsNull() {
       assertThrows(NullPointerException.class,
          () -> new Order(1L, "Commodities", Priority.LOW, null)

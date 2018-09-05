@@ -1,3 +1,5 @@
+package model;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.isNullOrEmpty;
@@ -44,12 +46,12 @@ public class Order {
    }
 
    private void setPriority(Priority priority) {
-      checkNotNull(priority, "Priority cannot be null");
+      checkNotNull(priority, "model.Priority cannot be null");
       this.priority = priority;
    }
 
    private void setSalesOrder(SalesOrder salesOrder) {
-      checkNotNull(salesOrder, "Sales Order cannot be null");
+      checkNotNull(salesOrder, "Sales model.Order cannot be null");
       this.salesOrder = salesOrder;
    }
 }

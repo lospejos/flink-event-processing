@@ -1,3 +1,6 @@
+package model;
+
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,14 +24,14 @@ class SalesOrderTest {
    @DisplayName("let: totalRevenue be calculated even if it's not passed in constructor")
    public void totalRevenueShouldBeComputedEvenIfNotProvided() {
       BigDecimal expectedValue = BigDecimal.valueOf(51008.75);
-      assertThat(salesOrder.getTotalRevenue()).isEqualTo(expectedValue);
+      Assertions.assertThat(salesOrder.getTotalRevenue()).isEqualTo(expectedValue);
    }
 
    @Test
    @DisplayName("let: totalCost be calculated even if it's not passed in constructor")
    public void totalCostShouldBeComputedEvenIfNotProvided() {
       BigDecimal expectedValue = BigDecimal.valueOf(34174.25);
-      assertThat(salesOrder.getTotalCost()).isEqualTo(expectedValue);
+      Assertions.assertThat(salesOrder.getTotalCost()).isEqualTo(expectedValue);
    }
 
    @Test
@@ -37,7 +40,7 @@ class SalesOrderTest {
       BigDecimal expectedValue = BigDecimal
          .valueOf(16834.50)
          .setScale(2, RoundingMode.CEILING);
-      assertThat(salesOrder.getTotalProfit()).isEqualTo(expectedValue);
+      Assertions.assertThat(salesOrder.getTotalProfit()).isEqualTo(expectedValue);
    }
 
    @Test

@@ -1,3 +1,5 @@
+package model;
+
 import java.math.BigDecimal;
 
 import static com.google.common.base.Preconditions.checkArgument;
