@@ -6,14 +6,14 @@ public enum Priority {
    LOW,
    LOWEST;
 
-   public static Priority of(Character priorityCode) {
+   public static Priority of(String priorityCode) {
       Priority priority;
       switch (priorityCode) {
-         case 'H':
+         case "H":
             priority = Priority.HIGH; break;
-         case 'M':
+         case "M":
             priority = Priority.MEDIUM; break;
-         case 'L':
+         case "L":
             priority = Priority.LOW; break;
          default:
             priority = Priority.LOWEST;
