@@ -1,8 +1,8 @@
-package repository;
+package io.petproject.repository;
 
-import model.Order;
-import model.Priority;
-import model.SalesOrder;
+import io.petproject.model.Order;
+import io.petproject.model.Priority;
+import io.petproject.model.SalesOrder;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.table.api.Table;

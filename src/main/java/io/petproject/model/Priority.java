@@ -1,4 +1,4 @@
-package model;
+package io.petproject.model;
 
 public enum Priority {
    HIGH,

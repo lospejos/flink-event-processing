@@ -1,6 +1,6 @@
-package repository;
+package io.petproject.repository;
 
-import model.Order;
+import io.petproject.model.Order;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

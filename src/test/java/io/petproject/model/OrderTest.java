@@ -1,4 +1,4 @@
-package model;
+package io.petproject.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -56,13 +56,5 @@ class OrderTest {
          () -> new Order(1L, "Commodities", Priority.LOW, null)
       );
    }
-
-
-
-
-
-
-
-
 
 }

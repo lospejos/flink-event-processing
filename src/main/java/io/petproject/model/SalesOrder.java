@@ -1,4 +1,4 @@
-package model;
+package io.petproject.model;
 
 import java.math.BigDecimal;
 
