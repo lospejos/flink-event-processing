@@ -17,7 +17,7 @@ public class Application {
       List<Order> ordersFromEurope = repo.findOrdersByRegion("europe");
 
       KafkaService<Order> kafkaService = new KafkaService<>();
-      kafkaService.push("orders", ordersFromEurope);
+      kafkaService.publish("orders", ordersFromEurope);
 
       // TODO: implement reduce function to consolidate overall OrdersProfit from a region/country
    }
