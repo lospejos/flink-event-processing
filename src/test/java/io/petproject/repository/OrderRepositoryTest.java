@@ -2,6 +2,7 @@ package io.petproject.repository;
 
 import io.petproject.model.Order;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -21,7 +22,8 @@ class OrderRepositoryTest {
    }
 
    @Test
-   public void processShouldReturnOrderDataSet() throws Exception {
+   @DisplayName("let: findOrdersByRegion return a non-empty List<Orders> if it's a valid region")
+   public void findOrdersByRegionShouldReturnNonEmptyListIfRegionIsValid() throws Exception {
       repo.process(file, ",");
       List<Order> europeanOrders = repo.findOrdersByRegion("europe");
       assertThat(europeanOrders.size()).isEqualTo(2633);
