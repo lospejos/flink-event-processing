@@ -1,9 +1,10 @@
 package io.petproject.service;
 
+import io.petproject.model.Order;
 import org.apache.flink.api.common.ExecutionConfig;
 import org.apache.flink.api.common.serialization.TypeInformationSerializationSchema;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
-import org.apache.flink.streaming.api.datastream.DataStreamSource;
+import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer011;
 
@@ -17,20 +18,21 @@ public class KafkaService<T> {
 
    public KafkaService() {
       this.sEnv = StreamExecutionEnvironment.getExecutionEnvironment();
+      // TODO: Get Parametrized class somehow for tClass
+      this.tClass = (Class<T>) Order.class;
    }
 
    public void publish(String kafkaTopic, Collection<T> collection) throws Exception {
-      DataStreamSource<T> dataStream = sEnv.fromCollection(collection);
+      DataStream<T> dataStream = sEnv.fromCollection(collection);
       dataStream.addSink(getKafkaProducer(kafkaTopic));
       sEnv.execute();
    }
 
-   public FlinkKafkaProducer011<T> getKafkaProducer(String kafkaTopic) {
+   private FlinkKafkaProducer011<T> getKafkaProducer(String kafkaTopic) {
       TypeInformationSerializationSchema<T> serializationSchema = new TypeInformationSerializationSchema<>(
          TypeInformation.of(tClass),
          new ExecutionConfig()
       );
-
       return new FlinkKafkaProducer011<>(KAFKA_SERVER, kafkaTopic, serializationSchema);
    }
 
