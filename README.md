@@ -8,8 +8,8 @@ This is just a pet project of mine to play with Flink
 - [x] Batch Table API (CSV Source)
 
 ### Streaming
-- [ ] DataStream API (Streaming)
-- [ ] Kafka Connector 
+- [x] DataStream API (Streaming)
+- [x] Kafka Connector 
 - [ ] Cassandra Connector
 - [ ] ElasticSearch Connector
 
