@@ -18,23 +18,23 @@ public class KafkaService<T> {
    private final static String ZOOKEEPER_SERVER = "localhost:2181";
    private final static String CONSUMER_GROUP_ID = "test-flink-consumer";
 
-   private StreamExecutionEnvironment sEnv;
+   private StreamExecutionEnvironment streamEnv;
    private Class<T> tClass;
 
    public KafkaService() {
-      this.sEnv = StreamExecutionEnvironment.getExecutionEnvironment();
+      this.streamEnv = StreamExecutionEnvironment.getExecutionEnvironment();
       // TODO: Get Parametrized class somehow for tClass
       this.tClass = (Class<T>) Order.class;
    }
 
    public void publish(String kafkaTopic, Collection<T> collection) throws Exception {
-      DataStream<T> dataStream = sEnv.fromCollection(collection);
+      DataStream<T> dataStream = streamEnv.fromCollection(collection);
       dataStream.addSink(getKafkaProducer(kafkaTopic));
-      sEnv.execute();
+      streamEnv.execute();
    }
 
    public DataStream<T> subscribe(String kafkaTopic) {
-      DataStream<T> dataStream = sEnv.addSource(getKafkaConsumer(kafkaTopic));
+      DataStream<T> dataStream = streamEnv.addSource(getKafkaConsumer(kafkaTopic));
       return dataStream;
    }
 
@@ -65,7 +65,7 @@ public class KafkaService<T> {
       return kafkaConsumer;
    }
 
-   protected StreamExecutionEnvironment getsEnv() {
-      return sEnv;
+   protected StreamExecutionEnvironment getStreamEnv() {
+      return streamEnv;
    }
 }
