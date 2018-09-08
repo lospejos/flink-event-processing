@@ -2,8 +2,6 @@ package io.petproject.service;
 
 import io.petproject.model.Order;
 import org.apache.flink.api.common.ExecutionConfig;
-import org.apache.flink.api.common.serialization.DeserializationSchema;
-import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.common.serialization.TypeInformationSerializationSchema;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.streaming.api.datastream.DataStream;
@@ -40,19 +38,23 @@ public class KafkaService<T> {
       return dataStream;
    }
 
-   private FlinkKafkaProducer011<T> getKafkaProducer(String kafkaTopic) {
-      TypeInformationSerializationSchema<T> serializationSchema = new TypeInformationSerializationSchema<>(
+   protected FlinkKafkaProducer011<T> getKafkaProducer(String kafkaTopic) {
+      FlinkKafkaProducer011<T> kafkaProducer = new FlinkKafkaProducer011<>(KAFKA_SERVER, kafkaTopic, getSerializationSchema());
+      kafkaProducer.setWriteTimestampToKafka(true);
+      return kafkaProducer;
+   }
+
+   protected FlinkKafkaConsumer011<T> getKafkaConsumer(String kafkaTopic) {
+      FlinkKafkaConsumer011<T> kafkaConsumer = new FlinkKafkaConsumer011<>(kafkaTopic, getSerializationSchema(), getKafkaConsumerProperties());
+      kafkaConsumer.setStartFromGroupOffsets();
+      return kafkaConsumer;
+   }
+
+   private TypeInformationSerializationSchema<T> getSerializationSchema() {
+      return new TypeInformationSerializationSchema<>(
          TypeInformation.of(tClass),
          new ExecutionConfig()
       );
-      return new FlinkKafkaProducer011<>(KAFKA_SERVER, kafkaTopic, serializationSchema);
-   }
-
-   public FlinkKafkaConsumer011<T> getKafkaConsumer(String kafkaTopic) {
-      DeserializationSchema<T> tDeserializationSchema = (DeserializationSchema<T>) new SimpleStringSchema();
-      FlinkKafkaConsumer011<T> kafkaConsumer = new FlinkKafkaConsumer011<>(kafkaTopic, tDeserializationSchema, getKafkaConsumerProperties());
-      kafkaConsumer.setStartFromEarliest(); // for testing purposes-only
-      return kafkaConsumer;
    }
 
    private Properties getKafkaConsumerProperties() {
@@ -63,4 +65,7 @@ public class KafkaService<T> {
       return kafkaConsumer;
    }
 
+   protected StreamExecutionEnvironment getsEnv() {
+      return sEnv;
+   }
 }
