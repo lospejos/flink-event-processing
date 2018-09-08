@@ -1,14 +1,14 @@
-## Flink for Event-driven Systems (Batch/Stream processing)
+# Flink for Event-driven Systems (Batch/Stream processing)
 
 This is just a pet project of mine to play with Flink
 
 ### Batch
-- [x] DataSet API (Batch)
+- [x] DataSet API
 - [ ] MapReduce on DataSets
 - [x] Batch Table API (CSV Source)
 
 ### Streaming
-- [x] DataStream API (Streaming)
+- [x] DataStream API
 - [x] Kafka Connector 
 - [ ] Cassandra Connector
 - [ ] ElasticSearch Connector
