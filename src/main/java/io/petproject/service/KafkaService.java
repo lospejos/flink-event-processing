@@ -21,10 +21,9 @@ public class KafkaService<T> {
    private StreamExecutionEnvironment streamEnv;
    private Class<T> tClass;
 
-   public KafkaService() {
+   public KafkaService(Class<T> tClass) {
       this.streamEnv = StreamExecutionEnvironment.getExecutionEnvironment();
-      // TODO: Get Parametrized class somehow for tClass
-      this.tClass = (Class<T>) Order.class;
+      this.tClass = tClass; // TODO: Workaround to deal with generics type erasure
    }
 
    public void publish(String kafkaTopic, Collection<T> collection) throws Exception {
