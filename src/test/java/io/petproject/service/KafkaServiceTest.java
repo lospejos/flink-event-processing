@@ -45,7 +45,7 @@ public class KafkaServiceTest {
    @Test
    @DisplayName("let: publish/subscribe send and receive messages to/from Kafka")
    public void shouldPublishToAndConsumeFromKafka() throws Exception {
-      KafkaService<Order> kafkaService = new KafkaService<>();
+      KafkaService<Order> kafkaService = new KafkaService<>(Order.class);
       kafkaService.publish(KAFKA_TEST_TOPIC, orders);
 
       DataStream<Order> consumerStream = kafkaService.subscribe(KAFKA_TEST_TOPIC);
@@ -69,8 +69,8 @@ public class KafkaServiceTest {
          }
       });
 
-      future.orTimeout(5, TimeUnit.SECONDS);
-      Thread.sleep(5000);
+      future.orTimeout(10, TimeUnit.SECONDS);
+      Thread.sleep(10000);
       return outputStream;
    }
 
