@@ -15,23 +15,10 @@ apply plugin: 'idea'
 apply plugin: 'eclipse'
 
 group 'io.petproject'
-version '0.1'
+version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.9
 targetCompatibility = 1.9
-
-jar {
-    manifest {
-        attributes "Main-Class": "io.petproject.Application"
-    }
-    from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-}
-
-test {
-    useJUnitPlatform()
-}
 
 repositories {
     mavenCentral()
@@ -44,6 +31,10 @@ dependencies {
     compile("org.apache.flink:flink-connector-kafka-0.11_2.11:${flinkVersion}")
     compile("com.google.guava:guava:${guavaVersion}")
     testCompile("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
-    testCompile("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
     testCompile("org.assertj:assertj-core:${assertJVersion}")
+    runtime("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+}
+
+test {
+    useJUnitPlatform()
 }
