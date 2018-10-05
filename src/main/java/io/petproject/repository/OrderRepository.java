@@ -32,7 +32,7 @@ public class OrderRepository {
          .filter(String.format("region.lowerCase() === '%s'", regionName.toLowerCase()))
          .select("order_id, category, priority, units_sold, unit_price, unit_cost, region, country");
 
-      List<Order> orders = batchTableEnv
+      return batchTableEnv
          .toDataSet(tOrders, Row.class)
          .map((MapFunction<Row, Order>) row -> {
             Long orderId = (Long) row.getField(0);
@@ -47,8 +47,6 @@ public class OrderRepository {
             SalesOrder salesOrder = new SalesOrder(unitsSold, unitPrice, unitCost);
             return new Order(orderId, category, priority, salesOrder);
          }).collect();
-
-      return orders;
    }
 
    public void process(File csvFile, String delimiter) {

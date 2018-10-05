@@ -17,16 +17,24 @@ class OrderRepositoryTest {
 
    @BeforeEach
    public void setup() {
-      file = new File(getClass().getResource("/10K-Sales-Records.csv").getFile());
+      file = new File(getClass().getResource("/100K-Sales-Records.csv").getFile());
       repo = new OrderRepository();
    }
 
    @Test
-   @DisplayName("let: findOrdersByRegion return a non-empty List<Orders> if it's a valid region")
+   @DisplayName("when a valid region is provided, return a non-empty Order list")
    public void findOrdersByRegionShouldReturnNonEmptyListIfRegionIsValid() throws Exception {
       repo.process(file, ",");
       List<Order> europeanOrders = repo.findOrdersByRegion("europe");
-      assertThat(europeanOrders.size()).isEqualTo(2633);
+      assertThat(europeanOrders.size()).isEqualTo(25877);
+   }
+
+   @Test
+   @DisplayName("when an invalid region is provided, return an empty Order list")
+   public void findOrdersByRegionShouldReturnEmptyListIfRegionIsInvalid() throws Exception {
+      repo.process(file, ",");
+      List<Order> europeanOrders = repo.findOrdersByRegion("invalidRegion");
+      assertThat(europeanOrders.size()).isEqualTo(0);
    }
 
 }
