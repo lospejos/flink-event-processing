@@ -18,7 +18,7 @@ class OrderTest {
    }
 
    @Test
-   @DisplayName("let: instance not be created if ID not greater than 0")
+   @DisplayName("when ID is lower than or equalTo 0, throw IllegalArgEx")
    public void shouldThrowIllegalArgExIfIdIsInvalid() {
       assertThrows(IllegalArgumentException.class,
          () -> new Order(0L, "Commodities", Priority.LOW, salesOrder)
@@ -26,7 +26,7 @@ class OrderTest {
    }
 
    @Test
-   @DisplayName("let: instance not be created if ID is null")
+   @DisplayName("when is null, throw IllegalArgEx")
    public void shouldThrowNullPointerExIfIdIsNull() {
       assertThrows(NullPointerException.class,
          () -> new Order(null, "Commodities", Priority.LOW, salesOrder)
