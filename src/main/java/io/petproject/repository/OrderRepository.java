@@ -2,7 +2,6 @@ package io.petproject.repository;
 
 import io.petproject.model.Order;
 import io.petproject.model.Priority;
-import io.petproject.model.SalesOrder;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.table.api.Table;
@@ -35,17 +34,20 @@ public class OrderRepository {
       return batchTableEnv
          .toDataSet(tOrders, Row.class)
          .map((MapFunction<Row, Order>) row -> {
-            Long orderId = (Long) row.getField(0);
+            Long id = (Long) row.getField(0);
             String category = row.getField(1).toString();
             Priority priority = Priority.of(row.getField(2).toString());
             Integer unitsSold = (Integer) row.getField(3);
             BigDecimal unitPrice = new BigDecimal(row.getField(4).toString());
             BigDecimal unitCost = new BigDecimal(row.getField(5).toString());
-            String region = row.getField(6).toString();
-            String country = row.getField(7).toString();
-
-            SalesOrder salesOrder = new SalesOrder(unitsSold, unitPrice, unitCost);
-            return new Order(orderId, category, priority, salesOrder);
+            return new Order.Builder()
+               .unitsSold(unitsSold)
+               .unitPrice(unitPrice)
+               .unitCost(unitCost)
+               .id(id)
+               .category(category)
+               .priority(priority)
+               .build();
          }).collect();
    }
 
