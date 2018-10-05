@@ -36,17 +36,24 @@ Later integrations with ElasticSearch and Cassandra will be added
 var file = // some SALES_RECORDS_FILE.csv 
 var repo = new OrderRepository();
 repo.process(file, ",");
-
 var ordersFromEurope = repo.findOrdersByRegion("europe");
-var kafkaService = new KafkaService<>(Order.class);
 
-kafkaService.publish("orders-topic-on-kafka", ordersFromEurope)
+var kafkaConfig = new Properties();
+kafkaConfig.setProperty("kafka.producer.bootstrap-server", "localhost:9092");
+
+var kafkaService = new KafkaService<>(Order.class, kafkaConfig);
+kafkaService.publish("kafka-topic", ordersFromEurope)
 ``` 
 
 **Flink-Kafka Consumer**
 ```
-var kafkaService = new KafkaService<>(Order.class);
-var orders = kafkaService.subscribe("orders-topic-on-kafka")
+var kafkaConfig = new Properties();
+kafkaConfig.setProperty("kafka.consumer.bootstrap-server", "localhost:9092");
+kafkaConfig.setProperty("kafka.consumer.zookeeper-server", "localhost:2181");
+kafkaConfig.setProperty("kafka.consumer.group-id", "test-consumer-group");
+
+var kafkaService = new KafkaService<>(Order.class, kafkaConfig);
+var orders = kafkaService.subscribe("kafka-topic")
 ```
 
 ## TODOs
