@@ -1,57 +1,101 @@
 package io.petproject.model;
 
+import java.math.BigDecimal;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Strings.isNullOrEmpty;
 
 public class Order {
 
-   private Long id;
-   private String category;
-   private Priority priority;
-   private SalesOrder salesOrder;
+   private Integer unitsSold;
+   private BigDecimal unitPrice;
+   private BigDecimal unitCost;
+   private BigDecimal totalRevenue;
+   private BigDecimal totalCost;
+   private BigDecimal totalProfit;
 
-   public Order(Long id, String category, Priority priority, SalesOrder salesOrder) {
-      setId(id);
-      setCategory(category);
-      setPriority(priority);
-      setSalesOrder(salesOrder);
+   public Order(Integer unitsSold, BigDecimal unitPrice, BigDecimal unitCost,
+                BigDecimal totalRevenue, BigDecimal totalCost, BigDecimal totalProfit) {
+      setUnitsSold(unitsSold);
+      setUnitPrice(unitPrice);
+      setUnitCost(unitCost);
+      setTotalRevenue(totalRevenue);
+      setTotalCost(totalCost);
+      setTotalProfit(totalProfit);
    }
 
-   public Long getId() {
-      return id;
+   public Order(Integer unitsSold, BigDecimal unitPrice, BigDecimal unitCost) {
+      this(unitsSold, unitPrice, unitCost, null, null, null);
    }
 
-   public String getCategory() {
-      return category;
+   public Order combine(Order that) {
+      Integer unitsSold = this.getUnitsSold() + that.getUnitsSold();
+      BigDecimal unitPrice = this.getUnitPrice().add(that.getUnitPrice());
+      BigDecimal unitCost = this.getUnitCost().add(that.getUnitCost());
+      return new Order(unitsSold, unitPrice, unitCost);
    }
 
-   public Priority getPriority() {
-      return priority;
+   public Integer getUnitsSold() {
+      return unitsSold;
    }
 
-   public SalesOrder getSalesOrder() {
-      return salesOrder;
+   public BigDecimal getUnitPrice() {
+      return unitPrice;
    }
 
-   private void setId(Long id) {
-      checkNotNull(id, "ID cannot be null");
-      checkArgument(id > 0, "ID must be greater than 0");
-      this.id = id;
+   public BigDecimal getUnitCost() {
+      return unitCost;
    }
 
-   private void setCategory(String category) {
-      checkArgument(!isNullOrEmpty(category), "Category cannot be null or blank");
-      this.category = category;
+   public BigDecimal getTotalRevenue() {
+      return totalRevenue;
    }
 
-   private void setPriority(Priority priority) {
-      checkNotNull(priority, "model.Priority cannot be null");
-      this.priority = priority;
+   public BigDecimal getTotalCost() {
+      return totalCost;
    }
 
-   private void setSalesOrder(SalesOrder salesOrder) {
-      checkNotNull(salesOrder, "Sales model.Order cannot be null");
-      this.salesOrder = salesOrder;
+   public BigDecimal getTotalProfit() {
+      return totalProfit;
    }
+
+
+   private void setUnitsSold(Integer unitsSold) {
+      checkNotNull(unitsSold, "Units Sold cannot be null");
+      checkArgument(unitsSold > 0, "Units Sold must be greater than 0");
+      this.unitsSold = unitsSold;
+   }
+
+   private void setUnitPrice(BigDecimal unitPrice) {
+      checkNotNull(unitPrice, "Unit Price cannot be null");
+      checkArgument(unitPrice.compareTo(BigDecimal.ZERO) > 0, "Unit Price must be greater than 0");
+      this.unitPrice = unitPrice;
+   }
+
+   private void setUnitCost(BigDecimal unitCost) {
+      checkNotNull(unitCost, "Unit Cost cannot be null");
+      checkArgument(unitCost.compareTo(BigDecimal.ZERO) > 0, "Unit Cost must be greater than 0");
+      this.unitCost = unitCost;
+   }
+
+   private void setTotalRevenue(BigDecimal totalRevenue) {
+      if (totalRevenue == null) {
+         this.totalRevenue = getUnitPrice().multiply(BigDecimal.valueOf(getUnitsSold()));
+      } else {
+         this.totalRevenue = totalRevenue;
+      }
+   }
+
+   private void setTotalCost(BigDecimal totalCost) {
+      if (totalCost == null) {
+         this.totalCost = getUnitCost().multiply(BigDecimal.valueOf(getUnitsSold()));
+      } else {
+         this.totalCost = totalCost;
+      }
+   }
+
+   private void setTotalProfit(BigDecimal totalProfit) {
+      this.totalProfit = getTotalRevenue().subtract(getTotalCost());
+   }
+
 }
