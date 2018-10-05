@@ -18,8 +18,8 @@ apply plugin: 'jacoco'
 group 'io.petproject'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 1.9
-targetCompatibility = 1.9
+sourceCompatibility = 10
+targetCompatibility = 10
 
 repositories {
     mavenCentral()

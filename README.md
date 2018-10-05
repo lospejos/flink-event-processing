@@ -16,7 +16,7 @@ Later integrations with ElasticSearch and Cassandra will be added
 ## Up and Running
 
 **Requirements**
-- JDK 9+ (also tested with OpenJDK11 :heavy_check_mark:)
+- JDK 10+ (also tested with OpenJDK11 :heavy_check_mark:)
 - Gradle
 
 **Building**
