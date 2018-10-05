@@ -10,11 +10,14 @@ public enum Priority {
       Priority priority;
       switch (code) {
          case "H":
-            priority = Priority.HIGH; break;
+            priority = Priority.HIGH;
+            break;
          case "M":
-            priority = Priority.MEDIUM; break;
+            priority = Priority.MEDIUM;
+            break;
          case "L":
-            priority = Priority.LOW; break;
+            priority = Priority.LOW;
+            break;
          default:
             priority = Priority.LOWEST;
       }
