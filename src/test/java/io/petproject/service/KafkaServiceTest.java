@@ -12,6 +12,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -20,10 +21,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class KafkaServiceTest {
 
    private final static String KAFKA_TEST_TOPIC = "kafka-test-topic";
+   private Properties kafkaConfig;
    private List<Order> orders;
 
    @BeforeEach
    public void setup() {
+      kafkaConfig = new Properties();
+      kafkaConfig.setProperty("kafka.producer.bootstrap-server", "localhost:9092");
+      kafkaConfig.setProperty("kafka.consumer.bootstrap-server", "localhost:9092");
+      kafkaConfig.setProperty("kafka.consumer.zookeeper-server", "localhost:2181");
+      kafkaConfig.setProperty("kafka.consumer.group-id", "test-consumer-group");
+
       orders = List.of(
          new Order.Builder()
             .id(1L).category("Meat").priority(Priority.HIGH)
@@ -48,9 +56,7 @@ public class KafkaServiceTest {
    @Disabled("Setup an Embedded Kafka Environment for testing")
    @DisplayName("when publishing a dataStream, it should consume the same amount or higher of messages")
    public void shouldPublishToAndConsumeFromKafka() throws Exception {
-      var kafkaService = new KafkaService<>(Order.class);
-      kafkaService.publish(KAFKA_TEST_TOPIC, orders);
-
+      var kafkaService = new KafkaService<>(Order.class, kafkaConfig);
       DataStream<Order> consumerStream = kafkaService.subscribe(KAFKA_TEST_TOPIC);
       consumerStream.print();
       ByteArrayOutputStream sysOutReturn = setupSysOutToCapturePrint(kafkaService);

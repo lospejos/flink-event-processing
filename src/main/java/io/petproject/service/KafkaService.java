@@ -13,20 +13,18 @@ import java.util.Properties;
 
 public class KafkaService<T> {
 
-   private final static String KAFKA_SERVER = "localhost:9092";
-   private final static String ZOOKEEPER_SERVER = "localhost:2181";
-   private final static String CONSUMER_GROUP_ID = "test-flink-consumer";
-
    private StreamExecutionEnvironment streamEnv;
+   private Properties kafkaConfig;
    private Class<T> tClass;
 
-   public KafkaService(Class<T> tClass) {
+   public KafkaService(Class<T> tClass, Properties kafkaConfig) {
       this.streamEnv = StreamExecutionEnvironment.getExecutionEnvironment();
+      this.kafkaConfig = kafkaConfig;
       this.tClass = tClass; // TODO: Workaround to deal with generics type erasure
    }
 
    public void publish(String kafkaTopic, Collection<T> collection) throws Exception {
-      DataStream<T> dataStream = streamEnv.fromCollection(collection);
+      var dataStream = streamEnv.fromCollection(collection);
       dataStream.addSink(getKafkaProducer(kafkaTopic));
       streamEnv.execute();
    }
@@ -35,34 +33,40 @@ public class KafkaService<T> {
       return streamEnv.addSource(getKafkaConsumer(kafkaTopic));
    }
 
-   protected FlinkKafkaProducer011<T> getKafkaProducer(String kafkaTopic) {
-      FlinkKafkaProducer011<T> kafkaProducer = new FlinkKafkaProducer011<>(KAFKA_SERVER, kafkaTopic, getSerializationSchema());
+   private FlinkKafkaProducer011<T> getKafkaProducer(String kafkaTopic) {
+      var kafkaProducer = new FlinkKafkaProducer011<>(
+         kafkaConfig.getProperty("kafka.producer.bootstrap-server"),
+         kafkaTopic,
+         getSerializationSchema()
+      );
       kafkaProducer.setWriteTimestampToKafka(true);
       return kafkaProducer;
    }
 
-   protected FlinkKafkaConsumer011<T> getKafkaConsumer(String kafkaTopic) {
-      FlinkKafkaConsumer011<T> kafkaConsumer = new FlinkKafkaConsumer011<>(kafkaTopic, getSerializationSchema(), getKafkaConsumerProperties());
+   private FlinkKafkaConsumer011<T> getKafkaConsumer(String kafkaTopic) {
+      var kafkaConsumer = new FlinkKafkaConsumer011<>(
+         kafkaTopic,
+         getSerializationSchema(),
+         getKafkaConsumerProperties()
+      );
       kafkaConsumer.setStartFromGroupOffsets();
       return kafkaConsumer;
    }
 
    private TypeInformationSerializationSchema<T> getSerializationSchema() {
-      return new TypeInformationSerializationSchema<>(
-         TypeInformation.of(tClass),
-         new ExecutionConfig()
-      );
+      return new TypeInformationSerializationSchema<>(TypeInformation.of(tClass), new ExecutionConfig());
    }
 
    private Properties getKafkaConsumerProperties() {
       Properties kafkaConsumer = new Properties();
-      kafkaConsumer.setProperty("bootstrap.servers", KAFKA_SERVER);
-      kafkaConsumer.setProperty("zookeeper.connect", ZOOKEEPER_SERVER);
-      kafkaConsumer.setProperty("group.id", CONSUMER_GROUP_ID);
+      kafkaConsumer.setProperty("bootstrap.servers", kafkaConfig.getProperty("kafka.consumer.bootstrap-server"));
+      kafkaConsumer.setProperty("zookeeper.connect", kafkaConfig.getProperty("kafka.consumer.zookeeper-server"));
+      kafkaConsumer.setProperty("group.id", kafkaConfig.getProperty("kafka.consumer.group-id"));
       return kafkaConsumer;
    }
 
    protected StreamExecutionEnvironment getStreamEnv() {
       return streamEnv;
    }
+
 }
