@@ -9,13 +9,11 @@ public class OrderMetadata {
    private Long id;
    private String category;
    private Priority priority;
-   private Order salesOrder;
 
-   public OrderMetadata(Long id, String category, Priority priority, Order salesOrder) {
+   public OrderMetadata(Long id, String category, Priority priority) {
       setId(id);
       setCategory(category);
       setPriority(priority);
-      setSalesOrder(salesOrder);
    }
 
    public Long getId() {
@@ -28,10 +26,6 @@ public class OrderMetadata {
 
    public Priority getPriority() {
       return priority;
-   }
-
-   public Order getSalesOrder() {
-      return salesOrder;
    }
 
    private void setId(Long id) {
@@ -50,8 +44,4 @@ public class OrderMetadata {
       this.priority = priority;
    }
 
-   private void setSalesOrder(Order salesOrder) {
-      checkNotNull(salesOrder, "Sales model.OrderMetadata cannot be null");
-      this.salesOrder = salesOrder;
-   }
 }

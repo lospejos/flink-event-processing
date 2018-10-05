@@ -34,7 +34,7 @@ class OrderMetadataTest {
    }
 
    @Test
-   @DisplayName("let: instance not be created if Category is NullOrBlank")
+   @DisplayName("when Category is null or blank, throw IllegalArgEx")
    public void shouldThrowIllegalArgExIfCategoryIsInvalid() {
       assertThrows(IllegalArgumentException.class,
          () -> new OrderMetadata(1L, null, Priority.LOW, salesOrder)
@@ -42,18 +42,10 @@ class OrderMetadataTest {
    }
 
    @Test
-   @DisplayName("let: instance not be created if model.Priority is null")
+   @DisplayName("when Priority is null, throw NullPointerEx")
    public void shouldThrowNullPointerExIfPriorityIsNull() {
       assertThrows(NullPointerException.class,
          () -> new OrderMetadata(1L, "Commodities", null, salesOrder)
-      );
-   }
-
-   @Test
-   @DisplayName("let: instance not be created if model.SalesOrder is null")
-   public void shouldThrowNullPointerExIfSalesOrderIsNull() {
-      assertThrows(NullPointerException.class,
-         () -> new OrderMetadata(1L, "Commodities", Priority.LOW, null)
       );
    }
 
