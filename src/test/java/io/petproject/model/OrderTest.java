@@ -66,7 +66,7 @@ class OrderTest {
 
    @Test
    @DisplayName("when unitsSold is null, throw NullPointerEx")
-   public void shouldThrowIllegalArgExIfUnitsSoldIsNull() {
+   public void shouldThrowNullPointerExIfUnitsSoldIsNull() {
       assertThrows(NullPointerException.class,
          () -> new Order.Builder()
             .id(1L)
@@ -96,7 +96,7 @@ class OrderTest {
 
    @Test
    @DisplayName("when unitPrice is null, throw NullPointerEx")
-   public void shouldThrowIllegalArgExIfUnitPriceIsNull() {
+   public void shouldThrowNullPointerExIfUnitPriceIsNull() {
       assertThrows(NullPointerException.class,
          () -> new Order.Builder()
             .id(1L)
@@ -126,14 +126,14 @@ class OrderTest {
 
    @Test
    @DisplayName("when unitCost is null, throw NullPointerEx")
-   public void shouldThrowIllegalArgExIfUnitCostIsIsNull() {
-      assertThrows(IllegalArgumentException.class,
+   public void shouldThrowNullPointerExIfUnitCostIsIsNull() {
+      assertThrows(NullPointerException.class,
          () -> new Order.Builder()
             .id(1L)
             .category("Commodities")
             .priority(Priority.HIGH)
             .unitsSold(1)
-            .unitPrice(BigDecimal.valueOf(-47.45))
+            .unitPrice(BigDecimal.valueOf(47.45))
             .unitCost(null)
             .build()
       );
