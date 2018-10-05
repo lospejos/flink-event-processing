@@ -20,21 +20,21 @@ class SalesOrderTest {
    }
 
    @Test
-   @DisplayName("let: totalRevenue be calculated even if it's not passed in constructor")
+   @DisplayName("when totalRevenue is not in the constructor, compute it based on unitsSold and unitsPrice")
    public void totalRevenueShouldBeComputedEvenIfNotProvided() {
       BigDecimal expectedValue = BigDecimal.valueOf(51008.75);
       Assertions.assertThat(salesOrder.getTotalRevenue()).isEqualTo(expectedValue);
    }
 
    @Test
-   @DisplayName("let: totalCost be calculated even if it's not passed in constructor")
+   @DisplayName("when totalCost is not in the constructor, compute it based on unitsSold and unitsCost")
    public void totalCostShouldBeComputedEvenIfNotProvided() {
       BigDecimal expectedValue = BigDecimal.valueOf(34174.25);
       Assertions.assertThat(salesOrder.getTotalCost()).isEqualTo(expectedValue);
    }
 
    @Test
-   @DisplayName("let: totalProfit be calculated even if it's not passed in constructor")
+   @DisplayName("when totalProfit is not in the constructor, compute it based on totalRevenue and totalCost")
    public void totalProfitShouldBeComputedEvenIfNotProvided() {
       BigDecimal expectedValue = BigDecimal
          .valueOf(16834.50)
@@ -43,7 +43,7 @@ class SalesOrderTest {
    }
 
    @Test
-   @DisplayName("let: instance not be created if Units Sold is not greater than 0")
+   @DisplayName("when unitsSold is < 0, throw IllegalArgEx")
    public void shouldThrowIllegalArgExIfUnitsSoldIsInvalid() {
       assertThrows(IllegalArgumentException.class,
          () -> new SalesOrder(-1, BigDecimal.valueOf(47.45), BigDecimal.valueOf(31.79))
@@ -51,7 +51,7 @@ class SalesOrderTest {
    }
 
    @Test
-   @DisplayName("let: instance not be created if Units Sold is Null")
+   @DisplayName("when unitsSold is null, throw NullPointerEx")
    public void shouldThrowIllegalArgExIfUnitsSoldIsNull() {
       assertThrows(NullPointerException.class,
          () -> new SalesOrder(null, BigDecimal.valueOf(47.45), BigDecimal.valueOf(31.79))
@@ -59,7 +59,7 @@ class SalesOrderTest {
    }
 
    @Test
-   @DisplayName("let: instance not be created if Unit Price is not greater than 0")
+   @DisplayName("when unitPrice is < 0, throw IllegalArgEx")
    public void shouldThrowIllegalArgExIfUnitPriceIsInvalid() {
       assertThrows(IllegalArgumentException.class,
          () -> new SalesOrder(1075, BigDecimal.valueOf(-47.45), BigDecimal.valueOf(31.79))
@@ -67,7 +67,7 @@ class SalesOrderTest {
    }
 
    @Test
-   @DisplayName("let: instance not be created if Units Price is Null")
+   @DisplayName("when unitPrice is null, throw NullPointerEx")
    public void shouldThrowIllegalArgExIfUnitPriceIsNull() {
       assertThrows(NullPointerException.class,
          () -> new SalesOrder(1075, null, BigDecimal.valueOf(31.79))
@@ -75,7 +75,7 @@ class SalesOrderTest {
    }
 
    @Test
-   @DisplayName("let: instance not be created if Unit Cost is not greater than 0")
+   @DisplayName("when unitCost is < 0, throw IllegalArgEx")
    public void shouldThrowIllegalArgExIfUnitCostIsIsInvalid() {
       assertThrows(IllegalArgumentException.class,
          () -> new SalesOrder(1075, BigDecimal.valueOf(47.45), BigDecimal.valueOf(-31.79))
@@ -83,7 +83,7 @@ class SalesOrderTest {
    }
 
    @Test
-   @DisplayName("let: instance not be created if Units Cost is Null")
+   @DisplayName("when unitCost is null, throw NullPointerEx")
    public void shouldThrowIllegalArgExIfUnitCostIsIsNull() {
       assertThrows(NullPointerException.class,
          () -> new SalesOrder(1075, BigDecimal.valueOf(47.45), null)
