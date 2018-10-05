@@ -16,7 +16,14 @@ class OrderTest {
 
    @BeforeEach
    public void setup() {
-      salesOrder = new Order(1075, BigDecimal.valueOf(47.45), BigDecimal.valueOf(31.79));
+      salesOrder = new Order.Builder()
+         .id(1L)
+         .category("Commodities")
+         .priority(Priority.HIGH)
+         .unitsSold(1075)
+         .unitPrice(BigDecimal.valueOf(47.45))
+         .unitCost(BigDecimal.valueOf(31.79))
+         .build();
    }
 
    @Test
@@ -46,7 +53,14 @@ class OrderTest {
    @DisplayName("when unitsSold is < 0, throw IllegalArgEx")
    public void shouldThrowIllegalArgExIfUnitsSoldIsInvalid() {
       assertThrows(IllegalArgumentException.class,
-         () -> new Order(-1, BigDecimal.valueOf(47.45), BigDecimal.valueOf(31.79))
+         () -> new Order.Builder()
+            .id(1L)
+            .category("Commodities")
+            .priority(Priority.HIGH)
+            .unitsSold(-1)
+            .unitPrice(BigDecimal.valueOf(47.45))
+            .unitCost(BigDecimal.valueOf(31.79))
+            .build()
       );
    }
 
@@ -54,7 +68,14 @@ class OrderTest {
    @DisplayName("when unitsSold is null, throw NullPointerEx")
    public void shouldThrowIllegalArgExIfUnitsSoldIsNull() {
       assertThrows(NullPointerException.class,
-         () -> new Order(null, BigDecimal.valueOf(47.45), BigDecimal.valueOf(31.79))
+         () -> new Order.Builder()
+            .id(1L)
+            .category("Commodities")
+            .priority(Priority.HIGH)
+            .unitsSold(null)
+            .unitPrice(BigDecimal.valueOf(47.45))
+            .unitCost(BigDecimal.valueOf(31.79))
+            .build()
       );
    }
 
@@ -62,7 +83,14 @@ class OrderTest {
    @DisplayName("when unitPrice is < 0, throw IllegalArgEx")
    public void shouldThrowIllegalArgExIfUnitPriceIsInvalid() {
       assertThrows(IllegalArgumentException.class,
-         () -> new Order(1075, BigDecimal.valueOf(-47.45), BigDecimal.valueOf(31.79))
+         () -> new Order.Builder()
+            .id(1L)
+            .category("Commodities")
+            .priority(Priority.HIGH)
+            .unitsSold(1)
+            .unitPrice(BigDecimal.valueOf(-47.45))
+            .unitCost(BigDecimal.valueOf(31.79))
+            .build()
       );
    }
 
@@ -70,7 +98,14 @@ class OrderTest {
    @DisplayName("when unitPrice is null, throw NullPointerEx")
    public void shouldThrowIllegalArgExIfUnitPriceIsNull() {
       assertThrows(NullPointerException.class,
-         () -> new Order(1075, null, BigDecimal.valueOf(31.79))
+         () -> new Order.Builder()
+            .id(1L)
+            .category("Commodities")
+            .priority(Priority.HIGH)
+            .unitsSold(1)
+            .unitPrice(null)
+            .unitCost(BigDecimal.valueOf(31.79))
+            .build()
       );
    }
 
@@ -78,15 +113,29 @@ class OrderTest {
    @DisplayName("when unitCost is < 0, throw IllegalArgEx")
    public void shouldThrowIllegalArgExIfUnitCostIsIsInvalid() {
       assertThrows(IllegalArgumentException.class,
-         () -> new Order(1075, BigDecimal.valueOf(47.45), BigDecimal.valueOf(-31.79))
+         () -> new Order.Builder()
+            .id(1L)
+            .category("Commodities")
+            .priority(Priority.HIGH)
+            .unitsSold(1)
+            .unitPrice(BigDecimal.valueOf(47.45))
+            .unitCost(BigDecimal.valueOf(-31.79))
+            .build()
       );
    }
 
    @Test
    @DisplayName("when unitCost is null, throw NullPointerEx")
    public void shouldThrowIllegalArgExIfUnitCostIsIsNull() {
-      assertThrows(NullPointerException.class,
-         () -> new Order(1075, BigDecimal.valueOf(47.45), null)
+      assertThrows(IllegalArgumentException.class,
+         () -> new Order.Builder()
+            .id(1L)
+            .category("Commodities")
+            .priority(Priority.HIGH)
+            .unitsSold(1)
+            .unitPrice(BigDecimal.valueOf(-47.45))
+            .unitCost(null)
+            .build()
       );
    }
 
