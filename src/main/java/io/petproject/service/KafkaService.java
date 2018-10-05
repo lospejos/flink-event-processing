@@ -33,8 +33,7 @@ public class KafkaService<T> {
    }
 
    public DataStream<T> subscribe(String kafkaTopic) {
-      DataStream<T> dataStream = streamEnv.addSource(getKafkaConsumer(kafkaTopic));
-      return dataStream;
+      return streamEnv.addSource(getKafkaConsumer(kafkaTopic));
    }
 
    protected FlinkKafkaProducer011<T> getKafkaProducer(String kafkaTopic) {

@@ -4,10 +4,7 @@ import io.petproject.model.Order;
 import io.petproject.model.Priority;
 import io.petproject.model.SalesOrder;
 import org.apache.flink.streaming.api.datastream.DataStream;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -43,7 +40,8 @@ public class KafkaServiceTest {
    }
 
    @Test
-   @DisplayName("let: publish/subscribe send and receive messages to/from Kafka")
+   @Disabled
+   @DisplayName("when publishing a dataStream, it should consume the same amount or higher of messages")
    public void shouldPublishToAndConsumeFromKafka() throws Exception {
       KafkaService<Order> kafkaService = new KafkaService<>(Order.class);
       kafkaService.publish(KAFKA_TEST_TOPIC, orders);
