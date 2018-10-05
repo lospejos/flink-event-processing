@@ -6,9 +6,9 @@ public enum Priority {
    LOW,
    LOWEST;
 
-   public static Priority of(String priorityCode) {
+   public static Priority of(String code) {
       Priority priority;
-      switch (priorityCode) {
+      switch (code) {
          case "H":
             priority = Priority.HIGH; break;
          case "M":
