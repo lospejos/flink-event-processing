@@ -15,7 +15,7 @@ public class Order {
    private BigDecimal totalProfit;
    private OrderMetadata metadata;
 
-   static class Builder {
+   public static class Builder {
       private Long id;
       private Integer unitsSold;
       private BigDecimal unitPrice;
