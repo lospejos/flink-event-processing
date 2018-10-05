@@ -1,6 +1,5 @@
 package io.petproject.service;
 
-import io.petproject.model.Order;
 import org.apache.flink.api.common.ExecutionConfig;
 import org.apache.flink.api.common.serialization.TypeInformationSerializationSchema;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
