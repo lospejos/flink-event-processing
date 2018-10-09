@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class OrderTest {
@@ -30,14 +31,14 @@ class OrderTest {
    @DisplayName("when totalRevenue is not in the constructor, compute it based on unitsSold and unitsPrice")
    public void totalRevenueShouldBeComputedEvenIfNotProvided() {
       BigDecimal expectedValue = BigDecimal.valueOf(51008.75);
-      Assertions.assertThat(salesOrder.getTotalRevenue()).isEqualTo(expectedValue);
+      assertThat(salesOrder.getTotalRevenue()).isEqualTo(expectedValue);
    }
 
    @Test
    @DisplayName("when totalCost is not in the constructor, compute it based on unitsSold and unitsCost")
    public void totalCostShouldBeComputedEvenIfNotProvided() {
       BigDecimal expectedValue = BigDecimal.valueOf(34174.25);
-      Assertions.assertThat(salesOrder.getTotalCost()).isEqualTo(expectedValue);
+      assertThat(salesOrder.getTotalCost()).isEqualTo(expectedValue);
    }
 
    @Test
@@ -46,7 +47,7 @@ class OrderTest {
       BigDecimal expectedValue = BigDecimal
          .valueOf(16834.50)
          .setScale(2, RoundingMode.CEILING);
-      Assertions.assertThat(salesOrder.getTotalProfit()).isEqualTo(expectedValue);
+      assertThat(salesOrder.getTotalProfit()).isEqualTo(expectedValue);
    }
 
    @Test

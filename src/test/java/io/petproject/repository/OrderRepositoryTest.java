@@ -17,12 +17,12 @@ class OrderRepositoryTest {
    public void setup() {
       file = new File(getClass().getResource("/100K-Sales-Records.csv").getFile());
       repo = new OrderRepository();
+      repo.process(file, ",");
    }
 
    @Test
    @DisplayName("when a valid region is provided, return a non-empty OrderMetadata list")
    public void findOrdersByRegionShouldReturnNonEmptyListIfRegionIsValid() throws Exception {
-      repo.process(file, ",");
       var europeanOrders = repo.findOrdersByRegion("europe");
       assertThat(europeanOrders.size()).isEqualTo(25877);
    }
@@ -30,7 +30,6 @@ class OrderRepositoryTest {
    @Test
    @DisplayName("when an invalid region is provided, return an empty OrderMetadata list")
    public void findOrdersByRegionShouldReturnEmptyListIfRegionIsInvalid() throws Exception {
-      repo.process(file, ",");
       var europeanOrders = repo.findOrdersByRegion("invalidRegion");
       assertThat(europeanOrders.size()).isEqualTo(0);
    }
