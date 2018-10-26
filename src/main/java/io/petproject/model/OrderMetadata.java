@@ -40,7 +40,7 @@ public class OrderMetadata {
    }
 
    private void setPriority(Priority priority) {
-      checkNotNull(priority, "model.Priority cannot be null");
+      checkNotNull(priority, "Priority cannot be null");
       this.priority = priority;
    }
 

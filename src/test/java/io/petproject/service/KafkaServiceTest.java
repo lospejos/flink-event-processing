@@ -46,7 +46,7 @@ public class KafkaServiceTest {
             .unitsSold(9527).unitPrice(BigDecimal.valueOf(109.28)).unitCost(BigDecimal.valueOf(35.84))
             .build(),
          new Order.Builder()
-            .id(4L).category("Eletronics").priority(Priority.LOW)
+            .id(4L).category("Electronics").priority(Priority.LOW)
             .unitsSold(3345).unitPrice(BigDecimal.valueOf(651.21)).unitCost(BigDecimal.valueOf(524.96))
             .build()
       );
