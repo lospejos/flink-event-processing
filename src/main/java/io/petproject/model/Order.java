@@ -153,7 +153,11 @@ public class Order {
    }
 
    private void setTotalProfit(BigDecimal totalProfit) {
-      this.totalProfit = getTotalRevenue().subtract(getTotalCost());
+      if (totalProfit == null) {
+         this.totalProfit = getTotalRevenue().subtract(getTotalCost());
+      } else {
+         this.totalProfit = totalProfit;
+      }
    }
 
    private void setMetadata(OrderMetadata metadata) {
