@@ -11,11 +11,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 class OrderRepositoryTest {
 
    private OrderRepository repo;
-   private File file;
 
    @BeforeEach
    public void setup() {
-      file = new File(getClass().getResource("/100K-Sales-Records.csv").getFile());
+      var file = new File(getClass().getResource("/100K-Sales-Records.csv").getFile());
       repo = new OrderRepository();
       repo.process(file, ",");
    }
