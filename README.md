@@ -59,8 +59,8 @@ var orders = kafkaService.subscribe("kafka-topic")
 
 **Batch API**
 - [x] DataSet API
-- [ ] MapReduce on DataSets
 - [x] Batch Table API (CSV Source)
+- [ ] HDFS/Parquet as Datasource
 
 **Streaming API**
 - [x] DataStream API
