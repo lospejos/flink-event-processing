@@ -27,9 +27,8 @@ public class KafkaServiceTest {
    @BeforeEach
    public void setup() {
       kafkaConfig = new Properties();
-      kafkaConfig.setProperty("kafka.producer.bootstrap-server", "localhost:9092");
-      kafkaConfig.setProperty("kafka.consumer.bootstrap-server", "localhost:9092");
-      kafkaConfig.setProperty("kafka.consumer.zookeeper-server", "localhost:2181");
+      kafkaConfig.setProperty("kafka.producer.bootstrap-servers", "localhost:9092");
+      kafkaConfig.setProperty("kafka.consumer.bootstrap-servers", "localhost:9092");
       kafkaConfig.setProperty("kafka.consumer.group-id", "test-consumer-group");
 
       orders = List.of(
@@ -57,29 +56,30 @@ public class KafkaServiceTest {
    @DisplayName("when publishing a dataStream, it should consume the same amount or higher of messages")
    public void shouldPublishToAndConsumeFromKafka() throws Exception {
       var kafkaService = new KafkaService<>(Order.class, kafkaConfig);
+      kafkaService.publish(KAFKA_TEST_TOPIC, orders);
       DataStream<Order> consumerStream = kafkaService.subscribe(KAFKA_TEST_TOPIC);
-      consumerStream.print();
-      ByteArrayOutputStream sysOutReturn = setupSysOutToCapturePrint(kafkaService);
 
-      assertThat(sysOutReturn.toString().split("\n").length)
-         .isGreaterThanOrEqualTo(orders.size());
+      ByteArrayOutputStream outputStream = readStreamFor(consumerStream, 10);
+      assertThat(outputStream.toString().split("\n").length)
+         .isGreaterThanOrEqualTo(this.orders.size());
    }
 
-   private ByteArrayOutputStream setupSysOutToCapturePrint(KafkaService<?> kafkaService) throws InterruptedException {
+   private ByteArrayOutputStream readStreamFor(DataStream<Order> consumerStream, int timeInSeconds) throws InterruptedException {
       ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
       System.setOut(new PrintStream(outputStream));
       System.setErr(new PrintStream(new ByteArrayOutputStream()));
+      consumerStream.print(); // Sink operation;
 
       CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
          try {
-            kafkaService.getStreamEnv().execute();
+            consumerStream.getExecutionEnvironment().execute();
          } catch (Exception e) {
             e.printStackTrace();
          }
       });
 
-      future.orTimeout(10, TimeUnit.SECONDS);
-      Thread.sleep(10000);
+      future.orTimeout(timeInSeconds, TimeUnit.SECONDS);
+      TimeUnit.SECONDS.sleep(timeInSeconds);
       return outputStream;
    }
 
