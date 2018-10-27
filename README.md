@@ -39,7 +39,7 @@ repo.process(file, ",");
 var ordersFromEurope = repo.findOrdersByRegion("europe");
 
 var kafkaConfig = new Properties();
-kafkaConfig.setProperty("kafka.producer.bootstrap-server", "localhost:9092");
+kafkaConfig.setProperty("kafka.producer.bootstrap-servers", "localhost:9092");
 
 var kafkaService = new KafkaService<>(Order.class, kafkaConfig);
 kafkaService.publish("kafka-topic", ordersFromEurope)
@@ -48,8 +48,7 @@ kafkaService.publish("kafka-topic", ordersFromEurope)
 **Flink-Kafka Consumer**
 ```
 var kafkaConfig = new Properties();
-kafkaConfig.setProperty("kafka.consumer.bootstrap-server", "localhost:9092");
-kafkaConfig.setProperty("kafka.consumer.zookeeper-server", "localhost:2181");
+kafkaConfig.setProperty("kafka.consumer.bootstrap-servers", "localhost:9092");
 kafkaConfig.setProperty("kafka.consumer.group-id", "test-consumer-group");
 
 var kafkaService = new KafkaService<>(Order.class, kafkaConfig);
