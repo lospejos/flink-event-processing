@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        flinkVersion = '1.6.0'
+        flinkVersion = '1.6.1'
         guavaVersion = '26.0-jre'
         junitVersion = '5.2.0'
         assertJVersion = '3.11.0'
@@ -18,8 +18,8 @@ apply plugin: 'jacoco'
 group 'io.petproject'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 10
-targetCompatibility = 10
+sourceCompatibility = JavaVersion.VERSION_11 //10
+targetCompatibility = JavaVersion.VERSION_11 //10
 
 repositories {
     mavenCentral()
